@@ -15,4 +15,8 @@ public class TickerResponse {
     private TickerInfo tickerInfo;
     private Stock stockTemp;
 
+    public void setResponseType(TickerResponseType responseType) {
+        this.responseType = responseType;
+        this.responseMessage = responseType.getValue();
+    }
 }

@@ -29,15 +29,12 @@ public class FinanceService {
         try {
             stock = YahooFinance.get(ticker);
             tickerResponse.setResponseType(TickerResponseType.RESPONSE_OK);
-            tickerResponse.setResponseMessage(TickerResponseType.RESPONSE_OK.getValue());
         } catch (Exception ex) {
             tickerResponse.setResponseType(TickerResponseType.RESPONSE_ERROR);
-            tickerResponse.setResponseMessage(TickerResponseType.RESPONSE_ERROR.getValue());
         }
 
         if(Objects.isNull(stock) || !stock.isValid()) {
             tickerResponse.setResponseType(TickerResponseType.RESPONSE_INVALID_TICKER);
-            tickerResponse.setResponseMessage(TickerResponseType.RESPONSE_INVALID_TICKER.getValue());
         }
 
         return stock;

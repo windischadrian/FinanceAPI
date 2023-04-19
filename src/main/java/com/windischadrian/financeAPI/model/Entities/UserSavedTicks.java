@@ -1,9 +1,6 @@
 package com.windischadrian.financeAPI.model.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -13,11 +10,8 @@ import java.util.List;
 public class UserSavedTicks {
 
     @Id
-    @GeneratedValue
-    private Long id;
-
     private String userID;
 
-    @OneToMany
-    private List<Ticker> tickers;
+    @ElementCollection
+    private List<String> tickers;
 }
