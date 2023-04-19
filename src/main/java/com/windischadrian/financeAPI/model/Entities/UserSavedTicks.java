@@ -19,5 +19,5 @@ public class UserSavedTicks {
     private String userID;
 
     @OneToMany
-    private List<Tick> ticks;
+    private List<Ticker> tickers;
 }

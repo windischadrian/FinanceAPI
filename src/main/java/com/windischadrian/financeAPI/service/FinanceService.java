@@ -52,6 +52,7 @@ public class FinanceService {
         tickerInfo.setStockPrice(stock.getQuote().getPrice());
 
         tickerResponse.setTickerInfo(tickerInfo);
+        tickerResponse.setStockTemp(stock);
     }
 
 }

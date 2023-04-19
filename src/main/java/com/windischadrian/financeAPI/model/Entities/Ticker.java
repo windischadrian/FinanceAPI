@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Tick {
+public class Ticker {
 
     @Id
     @GeneratedValue
