@@ -6,7 +6,11 @@ import lombok.Data;
 @Data
 public class TickerResponse {
 
-    private String Message;
+    //Generic
+    private String responseMessage;
+    private TickerResponseType responseType;
 
-    private TickerResponseType tickerResponseType;
+    //Stock Info
+    private TickerInfo tickerInfo;
+
 }
