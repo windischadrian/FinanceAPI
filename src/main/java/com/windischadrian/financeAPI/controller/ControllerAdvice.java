@@ -13,7 +13,7 @@ public class ControllerAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handleNoSuchElementException() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No data found for specified parameter.");
+    public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No data found for specified parameter.\n" + ex.getMessage());
     }
 }

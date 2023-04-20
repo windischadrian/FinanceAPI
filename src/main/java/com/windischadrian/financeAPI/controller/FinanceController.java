@@ -33,7 +33,7 @@ public class FinanceController {
         return new ResponseEntity<>(tickerResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/getTickerInfoFromuser/{userId}")
+    @GetMapping("/getTickerInfoFromUser/{userId}")
     public ResponseEntity<List<TickerResponse>> getTickerInfoFromUser(@PathVariable String userId) {
         List<String> userTickers = userTickerService.getTickers(userId).getTickers();
         List<TickerResponse> tickerInfoList = new ArrayList<>();

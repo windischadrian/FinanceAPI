@@ -26,6 +26,9 @@ public class UserTickerService {
     }
 
     public UserSavedTickers deleteTickers(String userId, TickersBody tickersBody) {
+        if(financeRepository.findById(userId).isEmpty()){
+            throw new NoSuchElementException("No such user.");
+        }
         UserSavedTickers ust = getUserSavedTicks(userId);
 
         return deleteTickersFromUserSaved(ust, tickersBody);
@@ -40,7 +43,7 @@ public class UserTickerService {
     private UserSavedTickers setTickers(UserSavedTickers ust, TickersBody tickersBody) {
         List<String> tickers = Optional.ofNullable(ust.getTickers()).orElseGet(ArrayList::new);
 
-        LinkedHashSet<String> noDuplicatesList = new LinkedHashSet<String>(tickers);
+        LinkedHashSet<String> noDuplicatesList = new LinkedHashSet<>(tickers);
         noDuplicatesList.addAll(tickersBody.getTickers());
 
         ust.setTickers(new ArrayList<>(noDuplicatesList));
