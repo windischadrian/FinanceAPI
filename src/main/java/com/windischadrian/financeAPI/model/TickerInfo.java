@@ -9,7 +9,7 @@ public class TickerInfo {
 
     //Stock information
     private String stockName;
-    private String Ticker;
+    private String ticker;
     private String stockCurrency;
     private String stockExchange;
     private BigDecimal stockPrice;

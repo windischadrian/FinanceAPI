@@ -7,50 +7,58 @@ import org.springframework.stereotype.Service;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class FinanceService {
 
     public TickerResponse getTickerInfo(String ticker) {
+        List<String> tickerList = Collections.singletonList(ticker);
         TickerResponse tickerResponse = new TickerResponse();
-        tickerResponse.setTicker(ticker);
 
-        Stock stock = validateStock(ticker, tickerResponse);
-
-        if(tickerResponse.getResponseType().equals(TickerResponseType.RESPONSE_OK)) {
-            mapTickerResponse(stock, tickerResponse);
-        }
+        validateStocks(tickerList, tickerResponse);
 
         return tickerResponse;
     }
 
-    private Stock validateStock(String ticker, TickerResponse tickerResponse) {
-        Stock stock = null;
+    public TickerResponse getTickerInfo(List<String> tickerList) {
+        TickerResponse tickerResponse = new TickerResponse();
 
+        validateStocks(tickerList, tickerResponse);
+
+        return tickerResponse;
+    }
+
+    private void validateStocks(List<String> tickerList, TickerResponse tickerResponse) {
+        Map<String, Stock> stockResponseMap = null;
         try {
-            stock = YahooFinance.get(ticker);
+            stockResponseMap = YahooFinance.get(tickerList.toArray(new String[0]));
             tickerResponse.setResponseType(TickerResponseType.RESPONSE_OK);
         } catch (Exception ex) {
             tickerResponse.setResponseType(TickerResponseType.RESPONSE_ERROR);
         }
 
-        if(Objects.isNull(stock) || !stock.isValid()) {
+        if(Objects.isNull(stockResponseMap)) {
             tickerResponse.setResponseType(TickerResponseType.RESPONSE_INVALID_TICKER);
+        } else if (tickerResponse.getResponseType().equals(TickerResponseType.RESPONSE_OK)){
+            mapTickerResponse(stockResponseMap, tickerResponse);
         }
-
-        return stock;
     }
 
-    private void mapTickerResponse(Stock stock, TickerResponse tickerResponse) {
-        TickerInfo tickerInfo = new TickerInfo();
-        tickerInfo.setStockName(stock.getName());
-        tickerInfo.setTicker(stock.getSymbol());
-        tickerInfo.setStockCurrency(stock.getCurrency());
-        tickerInfo.setStockExchange(stock.getStockExchange());
-        tickerInfo.setStockPrice(stock.getQuote().getPrice());
+    private void mapTickerResponse(Map<String,Stock> stockMap, TickerResponse tickerResponse) {
+        List<TickerInfo> tickerInfoList = new ArrayList<>();
+        stockMap.forEach((ticker, stock) -> {
+            TickerInfo tickerInfo = new TickerInfo();
+            tickerInfo.setStockName(stock.getName());
+            tickerInfo.setTicker(stock.getSymbol());
+            tickerInfo.setStockCurrency(stock.getCurrency());
+            tickerInfo.setStockExchange(stock.getStockExchange());
+            tickerInfo.setStockPrice(stock.getQuote().getPrice());
 
-        tickerResponse.setTickerInfo(tickerInfo);
+            tickerInfoList.add(tickerInfo);
+        });
+        
+        tickerResponse.setTickerInfo(tickerInfoList);
     }
 
 }

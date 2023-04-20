@@ -4,16 +4,17 @@ import com.windischadrian.financeAPI.enums.TickerResponseType;
 import lombok.Data;
 import yahoofinance.Stock;
 
+import java.util.List;
+
 @Data
 public class TickerResponse {
 
-    private String ticker;
     //Info
     private String responseMessage;
     private TickerResponseType responseType;
 
     //Stock Info
-    private TickerInfo tickerInfo;
+    private List<TickerInfo> tickerInfo;
 
     public void setResponseType(TickerResponseType responseType) {
         this.responseType = responseType;
