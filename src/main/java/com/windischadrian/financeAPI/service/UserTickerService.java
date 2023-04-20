@@ -1,6 +1,7 @@
 package com.windischadrian.financeAPI.service;
 
-import com.windischadrian.financeAPI.model.Entities.UserSavedTicks;
+import com.windischadrian.financeAPI.enums.UserSavedTickerMethods;
+import com.windischadrian.financeAPI.model.Entities.UserSavedTickers;
 import com.windischadrian.financeAPI.model.TickersBody;
 import com.windischadrian.financeAPI.repositories.FinanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,29 +17,29 @@ public class UserTickerService {
     @Autowired
     FinanceRepository financeRepository;
 
-    public UserSavedTicks getTickers(String userId) {
+    public UserSavedTickers getTickers(String userId) {
         return financeRepository.findById(userId).get();
     }
 
-    public UserSavedTicks addTickers(String userId, TickersBody tickersBody) {
-        UserSavedTicks ust = getUserSavedTicks(userId);
+    public UserSavedTickers addTickers(String userId, TickersBody tickersBody) {
+        UserSavedTickers ust = getUserSavedTicks(userId);
 
         return setTickers(ust, tickersBody);
     }
 
-    public UserSavedTicks deleteTickers(String userId, TickersBody tickersBody) {
-        UserSavedTicks ust = getUserSavedTicks(userId);
+    public UserSavedTickers deleteTickers(String userId, TickersBody tickersBody) {
+        UserSavedTickers ust = getUserSavedTicks(userId);
 
         return deleteTickersFromUserSaved(ust, tickersBody);
 
     }
 
-    private UserSavedTicks getUserSavedTicks(String userId) {
-        Optional<UserSavedTicks> ustOpt = financeRepository.findById(userId);
-        return ustOpt.orElseGet(() -> new UserSavedTicks(userId));
+    private UserSavedTickers getUserSavedTicks(String userId) {
+        Optional<UserSavedTickers> ustOpt = financeRepository.findById(userId);
+        return ustOpt.orElseGet(() -> new UserSavedTickers(userId));
     }
 
-    private UserSavedTicks setTickers(UserSavedTicks ust, TickersBody tickersBody) {
+    private UserSavedTickers setTickers(UserSavedTickers ust, TickersBody tickersBody) {
         List<String> tickers = Optional.ofNullable(ust.getTickers()).orElseGet(ArrayList::new);
 
         tickers.addAll(tickersBody.getTickers());
@@ -48,7 +49,7 @@ public class UserTickerService {
 
     }
 
-    private UserSavedTicks deleteTickersFromUserSaved(UserSavedTicks ust, TickersBody tickersBody) {
+    private UserSavedTickers deleteTickersFromUserSaved(UserSavedTickers ust, TickersBody tickersBody) {
         List<String> tickers = ust.getTickers();
         tickers.removeAll(tickersBody.getTickers());
 
