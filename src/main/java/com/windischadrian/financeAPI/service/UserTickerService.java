@@ -18,6 +18,7 @@ public class UserTickerService {
     FinanceRepository financeRepository;
 
     public UserSavedTickers getTickers(String userId) {
+
         return financeRepository.findById(userId).get();
     }
 
@@ -31,11 +32,11 @@ public class UserTickerService {
         UserSavedTickers ust = getUserSavedTicks(userId);
 
         return deleteTickersFromUserSaved(ust, tickersBody);
-
     }
 
     private UserSavedTickers getUserSavedTicks(String userId) {
         Optional<UserSavedTickers> ustOpt = financeRepository.findById(userId);
+
         return ustOpt.orElseGet(() -> new UserSavedTickers(userId));
     }
 
@@ -46,7 +47,6 @@ public class UserTickerService {
         ust.setTickers(tickers);
 
         return financeRepository.save(ust);
-
     }
 
     private UserSavedTickers deleteTickersFromUserSaved(UserSavedTickers ust, TickersBody tickersBody) {
