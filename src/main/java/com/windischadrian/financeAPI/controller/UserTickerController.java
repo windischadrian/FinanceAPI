@@ -1,6 +1,7 @@
 package com.windischadrian.financeAPI.controller;
 
 import com.windischadrian.financeAPI.model.Entities.UserSavedTicks;
+import com.windischadrian.financeAPI.model.TickersBody;
 import com.windischadrian.financeAPI.service.UserTickerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,17 +16,24 @@ public class UserTickerController {
     @Autowired
     UserTickerService userTickerService;
 
-    @PostMapping(path = "/add/{userId}")
-    public ResponseEntity addTicker(@PathVariable String userId, @RequestBody String ticker) {
-        userTickerService.addTicker(userId, ticker);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/getTicker/{userId}")
+    @GetMapping(path = "/getTickers/{userId}")
     public ResponseEntity<UserSavedTicks> getTickers(@PathVariable String userId) {
         UserSavedTicks savedTicks = userTickerService.getTickers(userId);
 
         return new ResponseEntity<>(savedTicks, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/addTickers/{userId}")
+    public ResponseEntity<UserSavedTicks> addTickers(@PathVariable String userId, @RequestBody TickersBody tickersBody) {
+        UserSavedTicks ust = userTickerService.addTickers(userId, tickersBody);
+
+        return new ResponseEntity<>(ust, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/deleteTickers/{userId}")
+    public ResponseEntity<UserSavedTicks> deleteTickers(@PathVariable String userId, @RequestBody TickersBody tickersBody) {
+        UserSavedTicks ust = userTickerService.deleteTickers(userId, tickersBody);
+
+        return new ResponseEntity<>(ust, HttpStatus.OK);
     }
 }
