@@ -7,13 +7,13 @@ import yahoofinance.Stock;
 @Data
 public class TickerResponse {
 
-    //Generic
+    private String ticker;
+    //Info
     private String responseMessage;
     private TickerResponseType responseType;
 
     //Stock Info
     private TickerInfo tickerInfo;
-    private Stock stockTemp;
 
     public void setResponseType(TickerResponseType responseType) {
         this.responseType = responseType;

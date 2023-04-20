@@ -14,6 +14,8 @@ public class FinanceService {
 
     public TickerResponse getTickerInfo(String ticker) {
         TickerResponse tickerResponse = new TickerResponse();
+        tickerResponse.setTicker(ticker);
+
         Stock stock = validateStock(ticker, tickerResponse);
 
         if(tickerResponse.getResponseType().equals(TickerResponseType.RESPONSE_OK)) {
@@ -49,7 +51,6 @@ public class FinanceService {
         tickerInfo.setStockPrice(stock.getQuote().getPrice());
 
         tickerResponse.setTickerInfo(tickerInfo);
-        tickerResponse.setStockTemp(stock);
     }
 
 }

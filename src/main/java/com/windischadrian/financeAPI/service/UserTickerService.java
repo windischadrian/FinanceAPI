@@ -1,15 +1,12 @@
 package com.windischadrian.financeAPI.service;
 
-import com.windischadrian.financeAPI.enums.UserSavedTickerMethods;
 import com.windischadrian.financeAPI.model.Entities.UserSavedTickers;
 import com.windischadrian.financeAPI.model.TickersBody;
 import com.windischadrian.financeAPI.repositories.FinanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserTickerService {
@@ -19,7 +16,7 @@ public class UserTickerService {
 
     public UserSavedTickers getTickers(String userId) {
 
-        return financeRepository.findById(userId).get();
+        return financeRepository.findById(userId).orElseThrow(NoSuchElementException::new);
     }
 
     public UserSavedTickers addTickers(String userId, TickersBody tickersBody) {
@@ -43,8 +40,10 @@ public class UserTickerService {
     private UserSavedTickers setTickers(UserSavedTickers ust, TickersBody tickersBody) {
         List<String> tickers = Optional.ofNullable(ust.getTickers()).orElseGet(ArrayList::new);
 
-        tickers.addAll(tickersBody.getTickers());
-        ust.setTickers(tickers);
+        LinkedHashSet<String> noDuplicatesList = new LinkedHashSet<String>(tickers);
+        noDuplicatesList.addAll(tickersBody.getTickers());
+
+        ust.setTickers(new ArrayList<>(noDuplicatesList));
 
         return financeRepository.save(ust);
     }
