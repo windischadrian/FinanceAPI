@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class UserSavedTickers {
+public class UserSavedTickersEntity {
 
     @Id
     private String userID;
@@ -19,9 +19,9 @@ public class UserSavedTickers {
     @ElementCollection
     private List<String> tickers = new ArrayList<>();
 
-    public UserSavedTickers(String userId) {
+    public UserSavedTickersEntity(String userId) {
         this.userID = userId;
     }
 
-    public UserSavedTickers() {}
+    public UserSavedTickersEntity() {}
 }

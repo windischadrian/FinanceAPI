@@ -3,6 +3,8 @@ package com.windischadrian.financeAPI.service;
 import com.windischadrian.financeAPI.enums.TickerResponseType;
 import com.windischadrian.financeAPI.model.TickerInfo;
 import com.windischadrian.financeAPI.model.TickerResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -11,6 +13,9 @@ import java.util.*;
 
 @Service
 public class FinanceService {
+
+    @Autowired
+    PopularTickerService popularTickerService;
 
     public TickerResponse getTickerInfo(String ticker) {
         List<String> tickerList = Collections.singletonList(ticker);
@@ -41,6 +46,7 @@ public class FinanceService {
         if(Objects.isNull(stockResponseMap)) {
             tickerResponse.setResponseType(TickerResponseType.RESPONSE_INVALID_TICKER);
         } else if (tickerResponse.getResponseType().equals(TickerResponseType.RESPONSE_OK)){
+            addTickersPopularity(tickerList);
             mapTickerResponse(stockResponseMap, tickerResponse);
         }
     }
@@ -59,6 +65,13 @@ public class FinanceService {
         });
         
         tickerResponse.setTickerInfo(tickerInfoList);
+    }
+
+    @Async
+    void addTickersPopularity(List<String> tickerList) {
+        for (String s : tickerList) {
+            popularTickerService.addTickerToday(s);
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package com.windischadrian.financeAPI.service;
 
-import com.windischadrian.financeAPI.model.Entities.UserSavedTickers;
+import com.windischadrian.financeAPI.model.Entities.UserSavedTickersEntity;
 import com.windischadrian.financeAPI.model.TickersBody;
 import com.windischadrian.financeAPI.repositories.FinanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,33 +14,33 @@ public class UserTickerService {
     @Autowired
     FinanceRepository financeRepository;
 
-    public UserSavedTickers getTickers(String userId) {
+    public UserSavedTickersEntity getTickers(String userId) {
 
         return financeRepository.findById(userId).orElseThrow(NoSuchElementException::new);
     }
 
-    public UserSavedTickers addTickers(String userId, TickersBody tickersBody) {
-        UserSavedTickers ust = getUserSavedTicks(userId);
+    public UserSavedTickersEntity addTickers(String userId, TickersBody tickersBody) {
+        UserSavedTickersEntity ust = getUserSavedTicks(userId);
 
         return setTickers(ust, tickersBody);
     }
 
-    public UserSavedTickers deleteTickers(String userId, TickersBody tickersBody) {
+    public UserSavedTickersEntity deleteTickers(String userId, TickersBody tickersBody) {
         if(financeRepository.findById(userId).isEmpty()){
             throw new NoSuchElementException("No such user.");
         }
-        UserSavedTickers ust = getUserSavedTicks(userId);
+        UserSavedTickersEntity ust = getUserSavedTicks(userId);
 
         return deleteTickersFromUserSaved(ust, tickersBody);
     }
 
-    private UserSavedTickers getUserSavedTicks(String userId) {
-        Optional<UserSavedTickers> ustOpt = financeRepository.findById(userId);
+    private UserSavedTickersEntity getUserSavedTicks(String userId) {
+        Optional<UserSavedTickersEntity> ustOpt = financeRepository.findById(userId);
 
-        return ustOpt.orElseGet(() -> new UserSavedTickers(userId));
+        return ustOpt.orElseGet(() -> new UserSavedTickersEntity(userId));
     }
 
-    private UserSavedTickers setTickers(UserSavedTickers ust, TickersBody tickersBody) {
+    private UserSavedTickersEntity setTickers(UserSavedTickersEntity ust, TickersBody tickersBody) {
         List<String> tickers = Optional.ofNullable(ust.getTickers()).orElseGet(ArrayList::new);
 
         LinkedHashSet<String> noDuplicatesList = new LinkedHashSet<>(tickers);
@@ -51,7 +51,7 @@ public class UserTickerService {
         return financeRepository.save(ust);
     }
 
-    private UserSavedTickers deleteTickersFromUserSaved(UserSavedTickers ust, TickersBody tickersBody) {
+    private UserSavedTickersEntity deleteTickersFromUserSaved(UserSavedTickersEntity ust, TickersBody tickersBody) {
         List<String> tickers = ust.getTickers();
         tickers.removeAll(tickersBody.getTickers());
 
