@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("${financeapi.endpoint.base}/user")
 public class UserTickerController {
 
     @Autowired

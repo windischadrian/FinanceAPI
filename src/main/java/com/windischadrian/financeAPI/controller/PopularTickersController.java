@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/popular")
+@RequestMapping("${financeapi.endpoint.base}/popular")
 public class PopularTickersController {
 
     @Autowired

@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("${financeapi.endpoint.base}/finance")
 public class FinanceController {
 
     @Autowired
