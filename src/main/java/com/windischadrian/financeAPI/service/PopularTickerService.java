@@ -3,12 +3,11 @@ package com.windischadrian.financeAPI.service;
 import com.windischadrian.financeAPI.model.Entities.PopularTickerEntity;
 import com.windischadrian.financeAPI.repositories.PopularTickerRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
@@ -30,10 +29,10 @@ public class PopularTickerService {
         String localDate = LocalDate.now().toString();
 
         PopularTickerEntity pte = getTickerFromDate(localDate);
-        HashMap<String, Integer> tickerCount = pte.getTickerCount();
+        Map<String, Integer> tickerCount = pte.getTickerCount();
         tickerCount.merge(ticker, 1, Integer::sum); //set 1 if does not exist, otherwise increment
         pte.setTickerCount(tickerCount);
-
+        log.info("PopularTickerEntity: {}", pte);
         popularTickerRepository.save(pte);
         log.info("Incremented ticker popularity count: {} - date: {}", ticker, localDate);
     }

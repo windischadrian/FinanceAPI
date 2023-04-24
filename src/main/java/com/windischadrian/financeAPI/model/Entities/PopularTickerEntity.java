@@ -1,11 +1,10 @@
 package com.windischadrian.financeAPI.model.Entities;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @Entity
@@ -15,7 +14,8 @@ public class PopularTickerEntity {
     private String date;
 
     @ElementCollection
-    private HashMap<String, Integer> tickerCount;
+    @MapKeyColumn(name="ticker_count_key")
+    private Map<String, Integer> tickerCount;
 
     public PopularTickerEntity(){}
 
