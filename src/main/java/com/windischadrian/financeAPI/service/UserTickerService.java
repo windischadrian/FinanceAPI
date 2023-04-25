@@ -3,11 +3,13 @@ package com.windischadrian.financeAPI.service;
 import com.windischadrian.financeAPI.model.Entities.UserSavedTickersEntity;
 import com.windischadrian.financeAPI.model.TickersBody;
 import com.windischadrian.financeAPI.repositories.FinanceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class UserTickerService {
 
@@ -27,6 +29,7 @@ public class UserTickerService {
 
     public UserSavedTickersEntity deleteTickers(String userId, TickersBody tickersBody) {
         if(financeRepository.findById(userId).isEmpty()){
+            log.error("Delete Tickers error: User {} does not have saved tickers.", userId);
             throw new NoSuchElementException("No such user.");
         }
         UserSavedTickersEntity ust = getUserSavedTicks(userId);
@@ -48,6 +51,7 @@ public class UserTickerService {
 
         ust.setTickers(new ArrayList<>(noDuplicatesList));
 
+        log.info("Saved tickers {} to user {}.", tickersBody, ust);
         return financeRepository.save(ust);
     }
 
@@ -57,6 +61,7 @@ public class UserTickerService {
 
         ust.setTickers(tickers);
 
+        log.info("Deleted tickers {} from user {}.", tickersBody, ust);
         return financeRepository.save(ust);
     }
 

@@ -3,6 +3,7 @@ package com.windischadrian.financeAPI.service;
 import com.windischadrian.financeAPI.enums.TickerResponseType;
 import com.windischadrian.financeAPI.model.TickerInfo;
 import com.windischadrian.financeAPI.model.TickerResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import yahoofinance.YahooFinance;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class FinanceService {
 
@@ -23,6 +25,7 @@ public class FinanceService {
 
         validateStocks(tickerList, tickerResponse);
 
+        log.info("Ticker info for {}: {}", ticker, tickerResponse);
         return tickerResponse;
     }
 

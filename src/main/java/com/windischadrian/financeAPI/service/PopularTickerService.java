@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@Service
 @Slf4j
+@Service
 public class PopularTickerService {
 
     @Autowired
@@ -22,7 +22,10 @@ public class PopularTickerService {
         PopularTickerEntity pte = getTickerFromDate(date);
         if(!pte.getTickerCount().isEmpty())
             return pte;
-        else throw new NoSuchElementException("No tickers for specified date.");
+        else {
+            log.error("No tickers for date {}.", date);
+            throw new NoSuchElementException("No tickers for specified date.");
+        }
     }
     
     public void addTickerToday(String ticker) {
@@ -32,7 +35,7 @@ public class PopularTickerService {
         Map<String, Integer> tickerCount = pte.getTickerCount();
         tickerCount.merge(ticker, 1, Integer::sum); //set 1 if does not exist, otherwise increment
         pte.setTickerCount(tickerCount);
-        log.info("PopularTickerEntity: {}", pte);
+
         popularTickerRepository.save(pte);
         log.info("Incremented ticker popularity count: {} - date: {}", ticker, localDate);
     }
