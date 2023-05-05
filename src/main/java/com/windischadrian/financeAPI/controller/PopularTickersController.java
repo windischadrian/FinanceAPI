@@ -5,12 +5,9 @@ import com.windischadrian.financeAPI.service.PopularTickerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("${financeapi.endpoint.base}/popular")
 public class PopularTickersController {
 
@@ -18,6 +15,7 @@ public class PopularTickersController {
     private PopularTickerService popularTickerService;
 
     @GetMapping("/fromDate/{date}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<PopularTickerEntity> getPopularTickersFromDate(@PathVariable String date) {
 
         PopularTickerEntity pte = popularTickerService.getPopularTickersFromDate(date);

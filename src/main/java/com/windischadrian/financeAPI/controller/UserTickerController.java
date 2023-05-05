@@ -6,10 +6,9 @@ import com.windischadrian.financeAPI.service.UserTickerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("${financeapi.endpoint.base}/user")
 public class UserTickerController {
 
@@ -17,6 +16,7 @@ public class UserTickerController {
     UserTickerService userTickerService;
 
     @GetMapping(path = "/getTickers/{userId}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserSavedTickersEntity> getTickers(@PathVariable String userId) {
         UserSavedTickersEntity savedTicks = userTickerService.getTickers(userId);
 
@@ -24,6 +24,7 @@ public class UserTickerController {
     }
 
     @PostMapping(path = "/addTickers/{userId}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserSavedTickersEntity> addTickers(@PathVariable String userId, @RequestBody TickersBody tickersBody) {
         UserSavedTickersEntity ust = userTickerService.addTickers(userId, tickersBody);
 
@@ -31,6 +32,7 @@ public class UserTickerController {
     }
 
     @PostMapping(path = "/deleteTickers/{userId}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserSavedTickersEntity> deleteTickers(@PathVariable String userId, @RequestBody TickersBody tickersBody) {
         UserSavedTickersEntity ust = userTickerService.deleteTickers(userId, tickersBody);
 
