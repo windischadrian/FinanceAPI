@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("${financeapi.endpoint.base}/finance")
+@RequestMapping("${base-endpoint}/finance")
 public class FinanceController {
 
     @Autowired

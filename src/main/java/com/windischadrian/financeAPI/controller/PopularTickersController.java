@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("${financeapi.endpoint.base}/popular")
+@RequestMapping("${base-endpoint}/popular")
 public class PopularTickersController {
 
     @Autowired

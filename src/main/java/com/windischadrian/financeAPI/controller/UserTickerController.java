@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("${financeapi.endpoint.base}/user")
+@RequestMapping("${base-endpoint}/user")
 public class UserTickerController {
 
     @Autowired
